@@ -1,0 +1,6 @@
+{
+    "id":"kpi",
+    "description":"Electroautomatika plugin for IH",
+    "cross":true,
+	"version":"0.0.1"
+}

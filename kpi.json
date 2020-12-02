@@ -1,0 +1,139 @@
+{
+  "name": "kpi",
+  "description": "Electroautomatika plugin for IH",
+  "module": "index.js",
+  "single": 0,
+  "restartOnChannelsChange": 0,
+
+  "params": [
+      {
+      "name": "transport",
+      "note": "тип связи",
+      "type": "droplist",
+      "data": [
+        {
+          "id": "rtu",
+          "name": "USB"
+        },
+        {
+          "id": "udp",
+          "name": "UDP/IP"
+        },
+        {
+          "id": "tcp",
+          "name": "TCP/IP"
+        }
+      ],
+      "val": "tcp"
+    },
+    {
+      "name": "controllerID",
+      "note": "адрес контроллера",
+      "type": "number",
+      "val": 1
+    },
+    {
+      "name": "host",
+      "note": "IP",
+      "type": "string",
+      "val": "192.168.0.250",
+      "visible": "data.transport && data.transport !== \"rtu\""
+    },
+    {
+      "name": "port",
+      "note": "$port",
+      "type": "number",
+      "val": "502",
+      "visible": "data.transport && data.transport !== \"rtu\""
+    },
+
+    {
+      "name": "serialport",
+      "note": "$port",
+      "type": "STRING",
+      "val": "/dev/ttyUSB0",
+      "visible": "data.transport && data.transport === \"rtu\""
+    },
+    {
+      "name": "baudRate",
+      "note": "скорость",
+      "type": "droplist",
+      "data": [
+        {
+          "id": "9600",
+          "name": "9600"
+        },
+        {
+          "id": "19200",
+          "name": "19200"
+        },
+        {
+          "id": "57600",
+          "name": "57600"
+        }
+      ],
+      "val": "57600",
+      "visible": "data.transport && data.transport === \"rtu\""
+    }
+  ],
+  
+  "chpattern": [
+    {
+      "name": "desc",
+      "note": "$desc",
+      "type": "droplist",
+      "data": [
+        { "id": "KPI",       "name": "KPI" },
+        { "id": "IBV",       "name": "IBV Discret in" },
+        { "id": "IBV_TEMP",  "name": "IBV Temperature sensor" }
+      ],
+      "order": 1
+    },
+    {
+      "name": "linAdress",
+      "note": "адрес",
+      "type": "NUMBER",
+      "visible": "data.desc && data.desc === \"IBV_TEMP\""
+    },
+    {
+      "name": "inNumber",
+      "note": "номер входа",
+      "type": "NUMBER",
+      "visible": "data.desc && data.desc === \"IBV_TEMP\""
+    },
+
+    {
+      "name": "metka",
+      "note": "метка",
+      "type": "STRING"
+    }
+  ],
+
+  "genrules": {
+    "KPI": {"cl": "ActorD", 
+            "ext":[
+              {
+                "name":"volt",
+                "note":"напряжение",
+                "type":"number"
+              },
+              {
+                "name":"amper",
+                "note":"ток",
+                "type":"number"
+              },
+              {
+                "name":"watt",
+                "note":"мощность",
+                "type":"number"
+              }
+                ]},        
+    "IBV":       {"cl": "SensorD"},
+    "IBV_TEMP":  {"cl":"SensorA","linAdress":null, "inNumber":null}
+  },
+   
+ 
+
+  "actions": [{}]
+
+}
